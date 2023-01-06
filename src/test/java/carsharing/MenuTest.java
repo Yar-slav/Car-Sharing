@@ -3,6 +3,7 @@ package carsharing;
 import carsharing.dao.Connection;
 import carsharing.dto.Company;
 import carsharing.dto.Customer;
+import carsharing.menu.Menu;
 import com.ginsberg.junit.exit.ExpectSystemExit;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -3,7 +3,7 @@ package carsharing.dao.Implementation;
 import carsharing.DBConnection;
 import carsharing.dao.CustomerDao;
 import carsharing.dto.Customer;
-import carsharing.model.RentCar;
+import carsharing.RentCar;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 
     @Override
-    public boolean addCar(int customerId, int companyId, int carId) {
+    public boolean addCar(int customerId, int carId) {
         try {
             String sql = "UPDATE customer SET rented_car_id = " + carId + " " +
                     "WHERE id = " + customerId + "";

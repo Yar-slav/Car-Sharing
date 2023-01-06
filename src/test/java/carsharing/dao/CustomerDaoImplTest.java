@@ -9,7 +9,7 @@ import carsharing.dao.Implementation.CustomerDaoImpl;
 import carsharing.dto.Car;
 import carsharing.dto.Company;
 import carsharing.dto.Customer;
-import carsharing.model.RentCar;
+import carsharing.RentCar;
 import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 class CustomerDaoImplTest extends Connection {
 
     @Test
-    void createCustomer() {
+    void createCustomer_CheckingIfCustomerWasCreated() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -26,7 +26,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void addCar() {
+    void addCar_CheckingIfCarWasAddToTheCustomerAsRented() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -44,7 +44,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void returnedCar() {
+    void returnedCar_CheckingWhetherTheCarWasReturned() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -54,7 +54,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void getRentedCar() {
+    void getRentedCar_CheckingTheCorrectDataOfCar() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -76,7 +76,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void CustomerDaoImplFail() throws SQLException {
+    void should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -89,7 +89,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void createCustomerFail() throws SQLException {
+    void createCustomer_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -102,7 +102,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void addCarFail() throws SQLException {
+    void addCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -115,7 +115,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void returnedCarFail() throws SQLException {
+    void returnedCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -128,7 +128,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void getRentedCarFail() throws SQLException {
+    void getRentedCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -141,7 +141,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void getAllCustomersFail() throws SQLException {
+    void getAllCustomers_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();

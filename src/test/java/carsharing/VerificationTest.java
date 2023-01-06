@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class VerificationTest extends Connection {
 
     @Test
-    void isExistCustomer() {
+    void isExistCustomer_ReturnTrueIfCustomerAlreadyExist() {
         Verification verification = new Verification(customerDao, companyDao);
         customerDao.createCustomer("Customer 1");
         customerDao.createCustomer("Customer 2");
@@ -24,7 +24,7 @@ class VerificationTest extends Connection {
     }
 
     @Test
-    void isNotExistCustomer() {
+    void isExistCustomer_ReturnFalseIfCustomerNotExist() {
         Verification verification = new Verification(customerDao, companyDao);
         customerDao.createCustomer("Customer 1");
         customerDao.createCustomer("Customer 2");
@@ -33,7 +33,7 @@ class VerificationTest extends Connection {
     }
 
     @Test
-    void isExistCompany() {
+    void isExistCompany_ReturnTrueIfCompanyAlreadyExist() {
         Verification verification = new Verification(customerDao, companyDao);
         companyDao.createCompany("Company 1");
         companyDao.createCompany("Company 2");
@@ -44,7 +44,7 @@ class VerificationTest extends Connection {
     }
 
     @Test
-    void isNotExistCompany() {
+    void isNotExistCompany_ReturnFalseIfCompanyNotExist() {
         Verification verification = new Verification(customerDao, companyDao);
         companyDao.createCompany("Company 1");
         companyDao.createCompany("Company 2");

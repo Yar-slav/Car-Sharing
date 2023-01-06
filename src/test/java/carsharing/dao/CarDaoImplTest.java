@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class CarDaoImplTest extends Connection{
 
     @Test
-    void createCar() {
+    void createCar_CheckingIfCarWasCreated() {
         companyDao.createCompany("Company 1");
         List<Company> allCompany = companyDao.getAllCompany();
         Company company = allCompany.get(0);
@@ -32,7 +32,7 @@ class CarDaoImplTest extends Connection{
     }
 
     @Test
-    void createCarFail() throws SQLException {
+    void createCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         carDao = new CarDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -45,7 +45,7 @@ class CarDaoImplTest extends Connection{
     }
 
     @Test
-    void getAllCarsFail() throws SQLException {
+    void getAllCars_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         carDao = new CarDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -58,7 +58,7 @@ class CarDaoImplTest extends Connection{
     }
 
     @Test
-    void CarDaoImplFail() throws SQLException {
+    void carDaoImpl_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         carDao = new CarDaoImpl(dbConnection);
         dbConnection.conn.close();

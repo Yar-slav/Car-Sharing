@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ViewList {
 
-    static boolean showCustomerListIfNotEmpty(List<Customer> customers) {
-        if(!customers.isEmpty()) {
+    public static boolean showCustomerListIfNotEmpty(List<Customer> customers) {
+        if (!customers.isEmpty()) {
             int i = 1;
             System.out.println("Customer list:");
             for (Customer customer : customers) {
@@ -20,8 +20,9 @@ public class ViewList {
         }
         return false;
     }
-    static boolean showCompanyListIfNotEmpty(List<Company> companies) {
-        if(!companies.isEmpty()) {
+
+    public static boolean showCompanyListIfNotEmpty(List<Company> companies) {
+        if (!companies.isEmpty()) {
             int i = 1;
             System.out.println("Choose a company:");
             for (Company company : companies) {
@@ -33,8 +34,8 @@ public class ViewList {
         return false;
     }
 
-    static boolean showCustomerCarListIfNotEmpty(List<Car> cars) {
-        if(!cars.isEmpty()) {
+    public static boolean showCustomerCarListIfNotEmpty(List<Car> cars) {
+        if (!cars.isEmpty()) {
             System.out.println("Choose a car:");
             int i = 1;
             for (Car car : cars) {

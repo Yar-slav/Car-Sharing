@@ -1,4 +1,4 @@
-package carsharing.model;
+package carsharing;
 
 public class RentCar {
     private String carName;

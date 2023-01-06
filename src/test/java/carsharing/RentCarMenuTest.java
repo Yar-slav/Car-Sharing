@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 
 import carsharing.dao.CustomerDao;
-import carsharing.model.RentCar;
+import carsharing.menu.Menu;
+import carsharing.menu.RentCarMenu;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

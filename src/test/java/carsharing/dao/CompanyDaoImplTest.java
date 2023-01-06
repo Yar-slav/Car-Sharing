@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class CompanyDaoImplTest extends Connection {
 
     @Test
-    void createCompany() {
+    void createCompany_CheckingIfCompanyWasCreated() {
         companyDao.createCompany("Company 1");
         List<Company> allCompany = companyDao.getAllCompany();
         Company company = allCompany.get(0);
@@ -23,7 +23,7 @@ class CompanyDaoImplTest extends Connection {
     }
 
     @Test
-    void CompanyDaoImplFail() throws SQLException {
+    void companyDaoImpl_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         companyDao = new CompanyDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -36,7 +36,7 @@ class CompanyDaoImplTest extends Connection {
     }
 
     @Test
-    void createCompanyFail() throws SQLException {
+    void createCompany_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         companyDao = new CompanyDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -49,7 +49,7 @@ class CompanyDaoImplTest extends Connection {
     }
 
     @Test
-    void getAllCompanyFail() throws SQLException {
+    void getAllCompany_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         companyDao = new CompanyDaoImpl(dbConnection);
         dbConnection.conn.close();

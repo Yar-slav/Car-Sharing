@@ -1,14 +1,14 @@
 package carsharing.dao;
 
 import carsharing.dto.Customer;
-import carsharing.model.RentCar;
+import carsharing.RentCar;
 import java.util.List;
 
 public interface CustomerDao {
 
     void createCustomer(String name);
 
-    boolean addCar(int customerId, int companyId, int carId);
+    boolean addCar(int customerId, int carId);
 
     boolean returnedCar(int customerId);
 
