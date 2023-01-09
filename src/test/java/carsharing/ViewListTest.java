@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class ViewListTest {
 
     @Test
-    void showCustomerList() {
+    void showCustomerListIfNotEmpty_ReturnTrueIfListNotEmpty() {
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer(1, "Customer 1"));
         customers.add(new Customer(2, "Customer 2"));
@@ -24,14 +24,14 @@ class ViewListTest {
     }
 
     @Test
-    void showCustomerListEmpty() {
+    void showCustomerListIfNotEmpty_ReturnFalseIfListIsEmpty() {
         List<Customer> customers = new ArrayList<>();
         boolean result = ViewList.showCustomerListIfNotEmpty(customers);
         assertFalse(result);
     }
 
     @Test
-    void showCompanyList() {
+    void showCompanyListIfNotEmpty_ReturnTrueIfListNotEmpty() {
         List<Company> companies = new ArrayList<>();
         companies.add(new Company(1, "Company 1"));
         companies.add(new Company(2, "Company 2"));
@@ -41,7 +41,7 @@ class ViewListTest {
     }
 
     @Test
-    void showCompanyListEmpty() {
+    void showCompanyListIfNotEmpty_ReturnFalseIfListIsEmpty() {
         List<Company> companies = new ArrayList<>();
 
         boolean result = ViewList.showCompanyListIfNotEmpty(companies);
@@ -49,7 +49,7 @@ class ViewListTest {
     }
 
     @Test
-    void showCustomerCarList() {
+    void showCustomerCarListIfNotEmpty_ReturnTrueIfListNotEmpty() {
         List<Car> cars = new ArrayList<>();
         cars.add(new Car(1, "Car 1"));
         cars.add(new Car(2, "Car 2"));
@@ -59,7 +59,7 @@ class ViewListTest {
     }
 
     @Test
-    void showCustomerCarListEmpty() {
+    void showCustomerCarListIfNotEmpty_ReturnFalseIfListIsEmpty() {
         List<Car> cars = new ArrayList<>();
 
         boolean result = ViewList.showCustomerCarListIfNotEmpty(cars);

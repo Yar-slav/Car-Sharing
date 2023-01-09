@@ -3,12 +3,13 @@ package carsharing.dao.Implementation;
 import carsharing.DBConnection;
 import carsharing.dao.CustomerDao;
 import carsharing.dto.Customer;
-import carsharing.model.RentCar;
+import carsharing.RentCar;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.h2.jdbc.JdbcSQLSyntaxErrorException;
 
 public class CustomerDaoImpl implements CustomerDao {
     private final DBConnection dbConnection;
@@ -42,7 +43,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 
     @Override
-    public boolean addCar(int customerId, int companyId, int carId) {
+    public boolean addCar(int customerId, int carId) {
         try {
             String sql = "UPDATE customer SET rented_car_id = " + carId + " " +
                     "WHERE id = " + customerId + "";
@@ -108,5 +109,20 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new RuntimeException("Exception");
         }
         return customers;
+    }
+
+    @Override
+    public boolean ifCustomerAlreadyExist(String name) {
+        try {
+            String sql = "SELECT * FROM customer WHERE name = '" + name + "'";
+            PreparedStatement ps = dbConnection.conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (SQLException se) {
+            throw new RuntimeException("Exception");
+        }
+        return false;
     }
 }

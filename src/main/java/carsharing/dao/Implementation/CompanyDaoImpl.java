@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CompanyDaoImpl implements CompanyDao {
     private final DBConnection dbConnection;
@@ -64,5 +66,21 @@ public class CompanyDaoImpl implements CompanyDao {
             throw new RuntimeException("Exception");
         }
         return companies;
+    }
+
+    @Override
+    public boolean ifCompanyAlreadyExist(String name) {
+        try {
+            String sql = "SELECT * FROM company WHERE name = '" + name + "'";
+            PreparedStatement ps = dbConnection.conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (
+                SQLException se) {
+            throw new RuntimeException("Exception");
+        }
+        return false;
     }
 }

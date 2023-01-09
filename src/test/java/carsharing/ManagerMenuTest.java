@@ -1,65 +1,90 @@
 package carsharing;
 
-import carsharing.DBConnection;
 import carsharing.dao.Connection;
-import carsharing.dto.Company;
-import carsharing.dto.Customer;
 import carsharing.menu.Menu;
 import com.ginsberg.junit.exit.ExpectSystemExit;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class MenuTest extends Connection {
+public class ManagerMenuTest extends Connection {
 
     @Test
     @ExpectSystemExit
-    void mainMenuDefault() {
-        String input = "incorrect\n0";
+    void managerMenuDefault() {
+        String input = "incorrect\n0\n0";
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         Menu menu = new Menu(new DBConnection(), companyDao, carDao, customerDao);
-        menu.mainMenu();
+        menu.getManagerMenu().managerMenu(menu);
     }
 
     @Test
     @ExpectSystemExit
-    void mainMenuToManagerMenu() {
+    void managerMenuManagerCompanyListEmpty() {
         String input = "1\n0\n0";
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         Menu menu = new Menu(new DBConnection(), companyDao, carDao, customerDao);
-        menu.mainMenu();
+        menu.getManagerMenu().managerMenu(menu);
     }
 
     @Test
     @ExpectSystemExit
-    void mainMenuToCustomerList() {
-        String input = "2\n0";
+    void managerMenuCreateCompany() {
+        String input = "2\nCompany\nCompany 1\n0\n0";
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         Menu menu = new Menu(new DBConnection(), companyDao, carDao, customerDao);
-        menu.mainMenu();
+        companyDao.createCompany("Company");
+        menu.getManagerMenu().managerMenu(menu);
     }
 
     @Test
     @ExpectSystemExit
-    void mainMenuCreateExistCustomer() {
-        String input = "3\nCustomer\nCustomer1\n0";
+    void managerCompanyListBadRequest() {
+        String input = "1\n1\nbadRequest\n0\n0\n0";
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         Menu menu = new Menu(new DBConnection(), companyDao, carDao, customerDao);
-        customerDao.createCustomer("Customer");
+        companyDao.createCompany("Company 1");
+        menu.mainMenu();
+    }
+
+    @Test
+    @ExpectSystemExit
+    void managerCompany() {
+        String input = "1\n1\n2\n0\n0\n0";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        Menu menu = new Menu(new DBConnection(), companyDao, carDao, customerDao);
+        companyDao.createCompany("Company 1");
+        companyDao.createCompany("Company 2");
+        companyDao.createCompany("Company 3");
+        menu.mainMenu();
+    }
+
+    @Test
+    @ExpectSystemExit
+    void managerCompanyNotExist() {
+        String input = "1\n1\n5\n0\n0\n0";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        Menu menu = new Menu(new DBConnection(), companyDao, carDao, customerDao);
+        companyDao.createCompany("Company 1");
         menu.mainMenu();
     }
 }

@@ -1,6 +1,7 @@
 package carsharing.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,7 +10,7 @@ import carsharing.dao.Implementation.CustomerDaoImpl;
 import carsharing.dto.Car;
 import carsharing.dto.Company;
 import carsharing.dto.Customer;
-import carsharing.model.RentCar;
+import carsharing.RentCar;
 import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.Test;
 class CustomerDaoImplTest extends Connection {
 
     @Test
-    void createCustomer() {
+    void createCustomer_CheckingIfCustomerWasCreated() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -26,7 +27,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void addCar() {
+    void addCar_CheckingIfCarWasAddToTheCustomerAsRented() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -39,12 +40,12 @@ class CustomerDaoImplTest extends Connection {
         List<Car> allCars = carDao.getAllCars(company.getId());
         Car car = allCars.get(0);
 
-        boolean result = customerDao.addCar(customer.getId(), company.getId(), car.getId());
+        boolean result = customerDao.addCar(customer.getId(), car.getId());
         assertTrue(result);
     }
 
     @Test
-    void returnedCar() {
+    void returnedCar_CheckingWhetherTheCarWasReturned() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -54,7 +55,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void getRentedCar() {
+    void getRentedCar_CheckingTheCorrectDataOfCar() {
         customerDao.createCustomer("Customer");
         List<Customer> allCustomers = customerDao.getAllCustomers();
         Customer customer = allCustomers.get(0);
@@ -67,7 +68,7 @@ class CustomerDaoImplTest extends Connection {
         List<Car> allCars = carDao.getAllCars(company.getId());
         Car car = allCars.get(0);
 
-        customerDao.addCar(customer.getId(), company.getId(), car.getId());
+        customerDao.addCar(customer.getId(), car.getId());
 
         RentCar rentCarExcepted = new RentCar(car.getName(), company.getName());
         RentCar rentedCarResult = customerDao.getRentedCar(customer.getId());
@@ -76,7 +77,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void CustomerDaoImplFail() throws SQLException {
+    void should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -89,7 +90,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void createCustomerFail() throws SQLException {
+    void createCustomer_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -102,20 +103,20 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void addCarFail() throws SQLException {
+    void addCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class,
-                () -> customerDao.addCar(1, 1, 1));
+                () -> customerDao.addCar(1, 1));
 
         dbConnection = new DBConnection();
         assertEquals("Exception", runtimeException.getMessage());
     }
 
     @Test
-    void returnedCarFail() throws SQLException {
+    void returnedCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -128,7 +129,7 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void getRentedCarFail() throws SQLException {
+    void getRentedCar_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
@@ -141,13 +142,45 @@ class CustomerDaoImplTest extends Connection {
     }
 
     @Test
-    void getAllCustomersFail() throws SQLException {
+    void getAllCustomers_Should_ThrowException_When_DBConnectionClose() throws SQLException {
         dbConnection = new DBConnection();
         customerDao = new CustomerDaoImpl(dbConnection);
         dbConnection.conn.close();
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class,
                 () -> customerDao.getAllCustomers());
+
+        dbConnection = new DBConnection();
+        assertEquals("Exception", runtimeException.getMessage());
+    }
+
+    @Test
+    void ifCustomerAlreadyExist_ReturnTrueIfCustomerAlreadyExist() {
+        customerDao.createCustomer("Customer 1");
+        customerDao.createCustomer("Customer 2");
+        customerDao.createCustomer("Customer 3");
+        List<Customer> allCustomers = customerDao.getAllCustomers();
+        Customer customer = allCustomers.get(0);
+
+        assertTrue(customerDao.ifCustomerAlreadyExist(customer.getName()));
+    }
+
+    @Test
+    void ifCustomerAlreadyExist_ReturnFalseIfCustomerNotExist() {
+        customerDao.createCustomer("Customer 1");
+        customerDao.createCustomer("Customer 2");
+
+        assertFalse(customerDao.ifCustomerAlreadyExist("Customer 3"));
+    }
+
+    @Test
+    void ifCustomerAlreadyExist_Should_ThrowException_When_DBConnectionClose() throws SQLException {
+        dbConnection = new DBConnection();
+        customerDao = new CustomerDaoImpl(dbConnection);
+        dbConnection.conn.close();
+
+        RuntimeException runtimeException = assertThrows(RuntimeException.class,
+                () -> customerDao.ifCustomerAlreadyExist("Customer"));
 
         dbConnection = new DBConnection();
         assertEquals("Exception", runtimeException.getMessage());
