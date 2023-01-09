@@ -9,4 +9,6 @@ public interface CompanyDao {
     boolean createCompany(String name);
 
     List<Company> getAllCompany();
+
+    boolean ifCompanyAlreadyExist(String name);
 }

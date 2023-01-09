@@ -1,7 +1,6 @@
 package carsharing.menu;
 
 import carsharing.RentCar;
-import carsharing.Verification;
 import carsharing.ViewList;
 import carsharing.dto.Car;
 import carsharing.dto.Company;
@@ -115,10 +114,11 @@ public class CustomerMenu {
     }
 
     void createCustomers(Menu menu) {
-        Verification verification = new Verification(menu.getCustomerDao(), menu.getCompanyDao());
         System.out.println("\nEnter the customer name:");
         String customerName = menu.scanner.nextLine();
-        if (verification.isExistCustomer(customerName)) {
+
+        if(menu.getCustomerDao().ifCustomerAlreadyExist(customerName)) {
+            System.out.println("Customer with this name has already exist");
             createCustomers(menu);
         }
         menu.getCustomerDao().createCustomer(customerName);

@@ -1,7 +1,9 @@
 package carsharing.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 
 import carsharing.DBConnection;
@@ -61,4 +63,34 @@ class CompanyDaoImplTest extends Connection {
         assertEquals("Exception", runtimeException.getMessage());
     }
 
+    @Test
+    void ifCompanyAlreadyExist_ReturnTrueIfCompanyAlreadyExist() {
+        companyDao.createCompany("Company 1");
+        companyDao.createCompany("Company 2");
+        List<Company> allCompany = companyDao.getAllCompany();
+        Company company = allCompany.get(0);
+
+        assertTrue(companyDao.ifCompanyAlreadyExist(company.getName()));
+    }
+
+    @Test
+    void ifCompanyAlreadyExist_ReturnFalseIfCompanyNotExist() {
+        companyDao.createCompany("Company 1");
+        companyDao.createCompany("Company 2");
+
+        assertFalse(companyDao.ifCompanyAlreadyExist("Company 3"));
+    }
+
+    @Test
+    void ifCompanyAlreadyExist_Should_ThrowException_When_DBConnectionClose() throws SQLException {
+        dbConnection = new DBConnection();
+        companyDao = new CompanyDaoImpl(dbConnection);
+        dbConnection.conn.close();
+
+        RuntimeException runtimeException = assertThrows(RuntimeException.class,
+                () -> companyDao.ifCompanyAlreadyExist("Company"));
+
+        dbConnection = new DBConnection();
+        assertEquals("Exception", runtimeException.getMessage());
+    }
 }

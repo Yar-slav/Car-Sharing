@@ -15,4 +15,6 @@ public interface CustomerDao {
     RentCar getRentedCar(int customerId);
 
     List<Customer> getAllCustomers();
+
+    boolean ifCustomerAlreadyExist(String name);
 }

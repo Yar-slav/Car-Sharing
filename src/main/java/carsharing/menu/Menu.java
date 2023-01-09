@@ -1,7 +1,6 @@
 package carsharing.menu;
 
 import carsharing.DBConnection;
-import carsharing.Verification;
 import carsharing.dao.*;
 
 import carsharing.dao.Implementation.CarDaoImpl;

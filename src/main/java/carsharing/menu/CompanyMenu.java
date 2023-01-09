@@ -1,6 +1,5 @@
 package carsharing.menu;
 
-import carsharing.Verification;
 import carsharing.ViewList;
 import carsharing.dto.Company;
 import java.util.List;
@@ -53,10 +52,11 @@ public class CompanyMenu {
     }
 
     void createCompany(Menu menu) {
-        Verification verification = new Verification(menu.getCustomerDao(), menu.getCompanyDao());
         System.out.println("\nEnter the company name:");
         String companyName = menu.scanner.nextLine();
-        if (verification.isExistCompany(companyName)) {
+
+        if(menu.getCompanyDao().ifCompanyAlreadyExist(companyName)) {
+            System.out.println("Company has already exist");
             createCompany(menu);
         }
         menu.getCompanyDao().createCompany(companyName);

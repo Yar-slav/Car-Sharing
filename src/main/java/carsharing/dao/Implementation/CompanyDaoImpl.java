@@ -67,4 +67,20 @@ public class CompanyDaoImpl implements CompanyDao {
         }
         return companies;
     }
+
+    @Override
+    public boolean ifCompanyAlreadyExist(String name) {
+        try {
+            String sql = "SELECT * FROM company WHERE name = '" + name + "'";
+            PreparedStatement ps = dbConnection.conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (
+                SQLException se) {
+            throw new RuntimeException("Exception");
+        }
+        return false;
+    }
 }

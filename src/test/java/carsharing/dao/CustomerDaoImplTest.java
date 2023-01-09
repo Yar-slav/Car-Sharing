@@ -1,6 +1,7 @@
 package carsharing.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -148,6 +149,38 @@ class CustomerDaoImplTest extends Connection {
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class,
                 () -> customerDao.getAllCustomers());
+
+        dbConnection = new DBConnection();
+        assertEquals("Exception", runtimeException.getMessage());
+    }
+
+    @Test
+    void ifCustomerAlreadyExist_ReturnTrueIfCustomerAlreadyExist() {
+        customerDao.createCustomer("Customer 1");
+        customerDao.createCustomer("Customer 2");
+        customerDao.createCustomer("Customer 3");
+        List<Customer> allCustomers = customerDao.getAllCustomers();
+        Customer customer = allCustomers.get(0);
+
+        assertTrue(customerDao.ifCustomerAlreadyExist(customer.getName()));
+    }
+
+    @Test
+    void ifCustomerAlreadyExist_ReturnFalseIfCustomerNotExist() {
+        customerDao.createCustomer("Customer 1");
+        customerDao.createCustomer("Customer 2");
+
+        assertFalse(customerDao.ifCustomerAlreadyExist("Customer 3"));
+    }
+
+    @Test
+    void ifCustomerAlreadyExist_Should_ThrowException_When_DBConnectionClose() throws SQLException {
+        dbConnection = new DBConnection();
+        customerDao = new CustomerDaoImpl(dbConnection);
+        dbConnection.conn.close();
+
+        RuntimeException runtimeException = assertThrows(RuntimeException.class,
+                () -> customerDao.ifCustomerAlreadyExist("Customer"));
 
         dbConnection = new DBConnection();
         assertEquals("Exception", runtimeException.getMessage());
