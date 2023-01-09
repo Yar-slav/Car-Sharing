@@ -39,7 +39,7 @@ class CustomerDaoImplTest extends Connection {
         List<Car> allCars = carDao.getAllCars(company.getId());
         Car car = allCars.get(0);
 
-        boolean result = customerDao.addCar(customer.getId(), company.getId(), car.getId());
+        boolean result = customerDao.addCar(customer.getId(), car.getId());
         assertTrue(result);
     }
 
@@ -67,7 +67,7 @@ class CustomerDaoImplTest extends Connection {
         List<Car> allCars = carDao.getAllCars(company.getId());
         Car car = allCars.get(0);
 
-        customerDao.addCar(customer.getId(), company.getId(), car.getId());
+        customerDao.addCar(customer.getId(), car.getId());
 
         RentCar rentCarExcepted = new RentCar(car.getName(), company.getName());
         RentCar rentedCarResult = customerDao.getRentedCar(customer.getId());
@@ -108,7 +108,7 @@ class CustomerDaoImplTest extends Connection {
         dbConnection.conn.close();
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class,
-                () -> customerDao.addCar(1, 1, 1));
+                () -> customerDao.addCar(1, 1));
 
         dbConnection = new DBConnection();
         assertEquals("Exception", runtimeException.getMessage());

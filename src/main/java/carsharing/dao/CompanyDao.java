@@ -2,6 +2,7 @@ package carsharing.dao;
 
 import carsharing.dto.Company;
 import java.util.List;
+import java.util.Map;
 
 public interface CompanyDao {
 

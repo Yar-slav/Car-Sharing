@@ -17,7 +17,7 @@ public class Connection {
     protected CustomerDaoImpl customerDao = new CustomerDaoImpl(dbConnection);
 
     @BeforeEach
-    void init() throws SQLException {
+    public void init() throws SQLException {
         String sqlDropCustomers= "DELETE FROM customer";
         PreparedStatement psDropCustomers = dbConnection.conn.prepareStatement(sqlDropCustomers);
         psDropCustomers.executeUpdate();
@@ -32,7 +32,7 @@ public class Connection {
     }
 
     @AfterEach
-    void afterVoid() throws SQLException {
+    public void afterVoid() throws SQLException {
         String sqlDropCustomers= "DELETE FROM customer";
         PreparedStatement psDropCustomers = dbConnection.conn.prepareStatement(sqlDropCustomers);
         psDropCustomers.executeUpdate();

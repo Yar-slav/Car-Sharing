@@ -5,6 +5,7 @@ import carsharing.dto.Company;
 import carsharing.dto.Customer;
 
 import java.util.List;
+import java.util.Map;
 
 public class ViewList {
 

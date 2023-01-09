@@ -4,6 +4,7 @@ import carsharing.Verification;
 import carsharing.ViewList;
 import carsharing.dto.Company;
 import java.util.List;
+import java.util.Map;
 
 public class CompanyMenu {
 
@@ -28,6 +29,7 @@ public class CompanyMenu {
     public void managerCompanyList(Menu menu) {
         System.out.println();
         List<Company> companies = menu.getCompanyDao().getAllCompany();
+//        Map<Integer, Company> companies = menu.getCompanyDao().getAllCompany();
         if (!ViewList.showCompanyListIfNotEmpty(companies)) {
             System.out.println("The company list is empty!");
             menu.getManagerMenu().managerMenu(menu);
